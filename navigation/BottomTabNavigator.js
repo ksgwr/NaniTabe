@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
+import SettingScreen from '../screens/SettingScreen';
 import LinksScreen from '../screens/LinksScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -20,16 +21,24 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+          title: 'お家',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" />,
         }}
       />
       <BottomTab.Screen
         name="Links"
         component={LinksScreen}
         options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: '外食',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-restaurant" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          title: '設定',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-settings" />,
         }}
       />
     </BottomTab.Navigator>
@@ -41,8 +50,10 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'How to get started';
+      return 'お家';
     case 'Links':
-      return 'Links to learn more';
+      return '外食';
+    case 'Setting':
+      return '設定'
   }
 }

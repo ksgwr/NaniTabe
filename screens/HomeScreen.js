@@ -1,14 +1,81 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ListItem, Button, Icon} from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 
+const items = [
+  {
+    name: 'ハンバーグ'
+  },
+  {
+    name: '唐揚げ'
+  },
+  {
+    name: 'コロッケ'
+  },
+  {
+    name: 'チャーハン'
+  },
+  {
+    name: 'カレーライス'
+  },
+  {
+    name: '野菜炒め'
+  },
+  {
+    name: '生姜焼き'
+  },
+  {
+    name: 'オムライス'
+  },
+  {
+    name: '餃子'
+  },
+  {
+    name: 'ステーキ'
+  },
+  {
+    name: 'しゃぶしゃぶ'
+  },
+  {
+    name: 'すき焼き'
+  },
+  {
+    name: '焼き肉'
+  }
+];
+
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <View style={styles.container}>
+      {
+        items.map((item, i) => (
+          <ListItem
+            key={i}
+            title={item.name}
+          />
+        ))
+      }
+
+    </View></ScrollView>
+    <View style={styles.fixedShuffleView}>
+      <Button
+        icon={
+        <Icon
+          name="shuffle"
+          size={20}
+          color="white"
+        />
+        }
+        title="シャッフル"
+      />
+    </View>
+      {/*<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
           <Image
             source={
@@ -47,7 +114,7 @@ export default function HomeScreen() {
         <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
           <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
         </View>
-      </View>
+          </View>*/}
     </View>
   );
 }
@@ -176,4 +243,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  fixedShuffleView : {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
