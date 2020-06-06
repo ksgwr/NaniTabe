@@ -4,8 +4,8 @@
 ## Init Project
 
 ```
-$ npm install -g react-native-cli
-$ react-native init NaniTabe
+$ npm install -g expo-cli
+$ expo init NaniTabe
 $ cd NaniTabe
 ```
 
@@ -14,6 +14,6 @@ and setting emulator with AndroidStudio
 ## Run
 
 ```
-$ react-native run-android
+$ expo start
 ```
 
