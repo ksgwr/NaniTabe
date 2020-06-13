@@ -17,7 +17,9 @@ export default class FilterScreen extends React.Component {
             enable: this.state.genreList.filter(x => x.check).length > 0,
             genreList: this.state.genreList
         };
-        navigation.push('Home', { filter: filter });
+        //https://stackoverflow.com/questions/44223727/react-navigation-goback-and-update-parent-state
+        this.props.route.params.updateFilter(filter);
+        navigation.goBack();
     }
 
 
@@ -31,6 +33,7 @@ export default class FilterScreen extends React.Component {
                     {
                         genreList.map((genre, i) => (
                             <CheckBox
+                                key={i}
                                 title={genre.name}
                                 checked={genre.check}
                                 onPress={() => {

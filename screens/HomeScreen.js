@@ -4,140 +4,42 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react
 import { ListItem, Button, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { MonoText } from '../components/StyledText';
+import { MonoText } from 'app/components/StyledText';
+
+import 'app/global.js';
+
+const createFilter = () => {
+  const filter = JSON.parse(JSON.stringify(global.categories));
+  filter.enable = false;
+  filter.genreList.forEach(x => x.check = false);
+  return filter;
+}
 
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    const filter = this.props.route.params?.filter ? this.props.route.params.filter : {
-      enable: false,
-      genreList: [
-        { name: '洋食', check: false },
-        { name: '中華', check: false },
-        { name: '家庭料理', check: false }
-      ]
-    };
-    let items = [
-      {
-        name: 'ハンバーグ',
-        genre: ['洋食'],
-        taste: ['がっつり'],
-        ingredients: ['牛ひき肉'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: '唐揚げ',
-        genre: ['家庭料理'],
-        taste: ['がっつり', '揚げ物'],
-        ingredients: ['鶏肉'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'コロッケ',
-        genre: ['家庭料理'],
-        taste: ['揚げ物'],
-        ingredients: ['ジャガイモ'],
-        dishType: ['メイン', 'サイド'],
-        other: []
-      },
-      {
-        name: 'チャーハン',
-        genre: ['中華'],
-        taste: ['塩辛い'],
-        ingredients: ['米'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'カレーライス',
-        genre: ['家庭料理'],
-        taste: ['辛い'],
-        ingredients: ['米', 'カレー'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: '野菜炒め',
-        genre: ['家庭料理'],
-        taste: ['塩辛い'],
-        ingredients: ['野菜'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: '生姜焼き',
-        genre: ['家庭料理'],
-        taste: ['がっつり'],
-        ingredients: ['豚肉'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'オムライス',
-        genre: ['洋食'],
-        taste: [],
-        ingredients: ['卵'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: '餃子',
-        genre: ['中華'],
-        taste: ['ツマミ'],
-        ingredients: ['豚ひき肉'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'ステーキ',
-        genre: ['洋食'],
-        taste: ['がっつり'],
-        ingredients: ['牛肉'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'しゃぶしゃぶ',
-        genre: ['家庭料理'],
-        taste: ['温まる'],
-        ingredients: [],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: 'すき焼き',
-        genre: ['家庭料理'],
-        taste: ['温まる'],
-        ingredients: ['牛肉', '卵'],
-        dishType: ['メイン'],
-        other: []
-      },
-      {
-        name: '焼き肉',
-        genre: ['家庭料理'],
-        taste: ['がっつり'],
-        ingredients: ['肉'],
-        dishType: ['メイン'],
-        other: []
-      }
-    ];
-    if (filter.enable) {
-      const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
-
-      items = items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
-    }
+    const filter = createFilter();
+    const items = global.dishes;
     this.state = {
       filter: filter,
       items: items
     }
   }
 
+  updateFilter = (filter) => {
+    let items = global.dishes;
+    if (filter.enable) {
+      const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
+
+      items = items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
+    }
+    this.setState({ filter: filter, items: items });
+  }
+
   filterClick = () => {
     const { navigation } = this.props;
-    navigation.push('Filter', { filter: this.state.filter });
+    navigation.navigate('Filter', { filter: this.state.filter, updateFilter: this.updateFilter });
   }
 
   shuffleClick = () => {
@@ -161,7 +63,9 @@ export default class HomeScreen extends React.Component {
           {
             this.state.filter.enable ?
               this.state.filter.genreList.filter(x => x.check).map((x, i) => (
-                <Text name={x.name}>{x.name}</Text>
+                <Text
+                  key={i}
+                  name={x.name}>{x.name}</Text>
               ))
               : <Text>条件なし</Text>
           }

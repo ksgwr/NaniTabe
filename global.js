@@ -1,0 +1,2 @@
+global.categories;
+global.dishes;
