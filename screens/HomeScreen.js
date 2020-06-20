@@ -3,32 +3,33 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Subscribe } from "unstated";
 
+import GlobalContainer from 'app/containers/GlobalContainer';
 import { MonoText } from 'app/components/StyledText';
 
-import 'app/global.js';
-
-const createFilter = () => {
-  const filter = JSON.parse(JSON.stringify(global.categories));
+const createFilter = (categories) => {
+  // deep copy filter
+  const filter = JSON.parse(JSON.stringify(categories));
   filter.enable = false;
   filter.genreList.forEach(x => x.check = false);
   return filter;
 }
 
-export default class HomeScreen extends React.Component {
+class HomeScreenContent extends React.Component {
 
   constructor(props) {
     super(props);
-    const filter = createFilter();
-    const items = global.dishes;
+    const filter = createFilter(this.props.globalState.state.categories);
+    const items = this.props.globalState.state.dishes;
     this.state = {
       filter: filter,
       items: items
-    }
+    };
   }
 
   updateFilter = (filter) => {
-    let items = global.dishes;
+    let items = this.props.globalState.state.dishes;
     if (filter.enable) {
       const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
 
@@ -113,32 +114,17 @@ export default class HomeScreen extends React.Component {
   }
 }
 
+const HomeScreen = ({ navigation }) => {
+  return (
+    <Subscribe to={[GlobalContainer]}>
+      {globalState => <HomeScreenContent globalState={globalState} navigation={navigation} />}
+    </Subscribe>
+  )
+}
+
 HomeScreen.navigationOptions = {
   header: null,
 };
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use useful development
-        tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
 
 function handleLearnMorePress() {
   WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
@@ -256,3 +242,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#f1c40f'
   }
 });
+
+export default HomeScreen;

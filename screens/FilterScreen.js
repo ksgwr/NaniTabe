@@ -17,7 +17,6 @@ export default class FilterScreen extends React.Component {
             enable: this.state.genreList.filter(x => x.check).length > 0,
             genreList: this.state.genreList
         };
-        //https://stackoverflow.com/questions/44223727/react-navigation-goback-and-update-parent-state
         this.props.route.params.updateFilter(filter);
         navigation.goBack();
     }

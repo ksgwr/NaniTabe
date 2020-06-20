@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import TabBarIcon from '../components/TabBarIcon';
-import HomeNavigator from './HomeNavigator';
-import SettingScreen from '../screens/SettingScreen';
-import LinksScreen from '../screens/LinksScreen';
+import TabBarIcon from 'app/components/TabBarIcon';
+import HomeNavigator from 'app/navigation/HomeNavigator';
+import SettingNavigator from 'app/navigation/SettingNavigator';
+import LinksScreen from 'app/screens/LinksScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -37,7 +37,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="Setting"
-        component={SettingScreen}
+        component={SettingNavigator}
         options={{
           title: '設定',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-settings" />,
