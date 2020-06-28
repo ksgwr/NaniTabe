@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, FlatList } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { ListItem, Button, Icon, CheckBox } from 'react-native-elements'
 import { List } from 'native-base';
@@ -9,7 +9,6 @@ import { Subscribe } from "unstated";
 
 import GlobalContainer from 'app/containers/GlobalContainer';
 import EditLink from 'app/components/EditLink';
-import { writeDishes } from 'app/utils/writeData';
 
 class DishesSettingScreenContent extends React.Component {
 
@@ -73,41 +72,45 @@ class DishesSettingScreenContent extends React.Component {
 
         return (
             <View style={styles.container} contentContainerStyle={styles.contentContainer}>
-                <ScrollView>
-                    {editClick ?
+                {editClick ?
+                    (
+                        <Text style={{ alignSelf: 'center', margin: 20 }}>新しく料理を追加</Text>
+                    ) : (
+                        <Text style={{ alignSelf: 'center', margin: 20, color: '#03A9F4' }}>新しく料理を追加</Text>
+                    )
+                }
+                {
+                    editClick ?
                         (
-                            <Text style={{ alignSelf: 'center', margin: 20 }}>新しく料理を追加</Text>
-                        ) : (
-                            <Text style={{ alignSelf: 'center', margin: 20, color: '#03A9F4' }}>新しく料理を追加</Text>
-                        )
-                    }
-                    {
-                        items.map((item, i) => {
-                            if (editClick) {
-                                return (
+                            <FlatList
+                                data={items}
+                                keyExtractor={(item, i) => i.toString()}
+                                renderItem={({ item, index }) => (
                                     <ListItem
-                                        key={i}
                                         title={<CheckBox
-                                            key={i}
+                                            key={index}
                                             title={item.name}
                                             checked={item.edit}
                                             onPress={() => {
-                                                items[i].edit = !items[i].edit;
+                                                items[index].edit = !items[index].edit;
                                                 this.props.globalState.setState({ dishes: items });
                                             }}
                                         />}
                                     />
-                                );
-                            } else {
-                                return (<ListItem
-                                    key={i}
-                                    title={item.name}
-                                />)
-                            }
-
-                        })
-                    }
-                </ScrollView>
+                                )}
+                            />
+                        ) : (
+                            <FlatList
+                                data={items}
+                                keyExtractor={(item, i) => i.toString()}
+                                renderItem={({ item }) => (
+                                    <ListItem
+                                        title={item.name}
+                                    />
+                                )}
+                            />
+                        )
+                }
                 {
                     editClick &&
                     (<View style={styles.fixedDeleteView}>
