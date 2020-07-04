@@ -65,6 +65,10 @@ class DishesSettingScreenContent extends React.Component {
         )
     }
 
+    addClick = () => {
+        const { navigation } = this.props;
+        navigation.navigate('AddDish', { categories: this.props.globalState.state.categories });
+    }
 
     render() {
         const { editClick } = this.state;
@@ -76,7 +80,10 @@ class DishesSettingScreenContent extends React.Component {
                     (
                         <Text style={{ alignSelf: 'center', margin: 20 }}>新しく料理を追加</Text>
                     ) : (
-                        <Text style={{ alignSelf: 'center', margin: 20, color: '#03A9F4' }}>新しく料理を追加</Text>
+                        <Text
+                            style={{ alignSelf: 'center', margin: 20, color: '#03A9F4' }}
+                            onPress={this.addClick}
+                        >新しく料理を追加</Text>
                     )
                 }
                 {
