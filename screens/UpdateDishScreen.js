@@ -8,18 +8,23 @@ import { Subscribe } from "unstated";
 
 import GlobalContainer from 'app/containers/GlobalContainer';
 
-const initListForCheckbox = (target) => {
-    target.map(x => x.checked = false);
+const initListForCheckbox = (target, checkedList) => {
+    target.forEach(x =>
+        checkedList.find(y => y == x.name) ?
+            x.checked = true :
+            x.checked = false
+    );
 }
 
 const transList = (list) => {
     return list.filter(x => x.checked).map(x => x.name);
 }
 
-class AddDishScreenContent extends React.Component {
+class UpdateDishScreenContent extends React.Component {
 
     constructor(props) {
         super(props);
+        const { item } = this.props.route.params;
         const { placeList,
             genreList,
             tasteList,
@@ -27,14 +32,14 @@ class AddDishScreenContent extends React.Component {
             dishTypeList,
             otherList,
         } = this.props.route.params.categories;
-        initListForCheckbox(placeList);
-        initListForCheckbox(genreList);
-        initListForCheckbox(tasteList);
-        initListForCheckbox(ingredientList);
-        initListForCheckbox(dishTypeList);
-        initListForCheckbox(otherList);
+        //initListForCheckbox(placeList, item.place);
+        initListForCheckbox(genreList, item.genre);
+        initListForCheckbox(tasteList, item.taste);
+        initListForCheckbox(ingredientList, item.ingredients);
+        initListForCheckbox(dishTypeList, item.dishType);
+        initListForCheckbox(otherList, item.other);
         this.state = {
-            name: '',
+            name: item.name,
             placeList: placeList,
             genreList: genreList,
             tasteList: tasteList,
@@ -47,11 +52,6 @@ class AddDishScreenContent extends React.Component {
 
     componentDidMount() {
 
-    }
-
-    changeText = (name) => {
-        const error = this.props.globalState.state.dishes.find(x => x.name == name) ? true : false;
-        this.setState({ name: name, error: error });
     }
 
     isChecked = (target, stateValue) => {
@@ -69,18 +69,13 @@ class AddDishScreenContent extends React.Component {
     saveClick = () => {
         const { navigation } = this.props;
         const items = this.props.globalState.state.dishes;
+        const item = items.find(x => x.name == this.state.name)
 
-        items.push(
-            {
-                name: this.state.name,
-                place: transList(this.state.placeList),
-                genre: transList(this.state.genreList),
-                taste: transList(this.state.tasteList),
-                ingredients: transList(this.state.ingredientList),
-                dishType: transList(this.state.dishTypeList),
-                other: transList(this.state.otherList)
-            }
-        );
+        item.place = transList(this.state.placeList);
+        item.genre = transList(this.state.genreList);
+        item.ingredients = transList(this.state.ingredientList);
+        item.dishType = transList(this.state.dishTypeList);
+        item.other = transList(this.state.otherList);
 
         this.props.globalState.writeDishes(items);
         navigation.goBack();
@@ -89,15 +84,7 @@ class AddDishScreenContent extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-                <TextInput
-                    value={this.state.name}
-                    onChangeText={this.changeText}
-                    placeholder="料理名"
-                    style={{ width: 200, height: 44, padding: 8 }}
-                />
-                {this.state.error &&
-                    (<Text style={{ color: "red" }}>既に登録済みの料理名です</Text>)
-                }
+                <Text>{this.state.name}</Text>
                 <Text>食べる場所</Text>
                 {
                     this.state.placeList.map((x, i) => (
@@ -172,7 +159,7 @@ class AddDishScreenContent extends React.Component {
                             color="white"
                         />
                     }
-                    title="追加"
+                    title="更新"
                     onPress={this.saveClick}
                     disabled={this.state.error}
                 />
@@ -181,10 +168,10 @@ class AddDishScreenContent extends React.Component {
     }
 }
 
-const AddDishScreen = ({ route, navigation }) => {
+const UpdateDishScreen = ({ route, navigation }) => {
     return (
         <Subscribe to={[GlobalContainer]}>
-            {globalState => <AddDishScreenContent globalState={globalState} navigation={navigation} route={route} />}
+            {globalState => <UpdateDishScreenContent globalState={globalState} navigation={navigation} route={route} />}
         </Subscribe>
     )
 }
@@ -226,4 +213,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AddDishScreen;
+export default UpdateDishScreen;

@@ -70,6 +70,13 @@ class DishesSettingScreenContent extends React.Component {
         navigation.navigate('AddDish', { categories: this.props.globalState.state.categories });
     }
 
+    itemClick = (name) => {
+        const { navigation } = this.props;
+        const item = this.props.globalState.state.dishes.find(x => x.name == name);
+        console.log(item);
+        navigation.navigate('UpdateDish', { categories: this.props.globalState.state.categories, item: item });
+    }
+
     render() {
         const { editClick } = this.state;
         const items = this.props.globalState.state.dishes;
@@ -113,6 +120,7 @@ class DishesSettingScreenContent extends React.Component {
                                 renderItem={({ item }) => (
                                     <ListItem
                                         title={item.name}
+                                        onPress={this.itemClick.bind(this, item.name)}
                                     />
                                 )}
                             />
