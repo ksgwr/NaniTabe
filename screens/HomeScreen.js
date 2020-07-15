@@ -2,8 +2,9 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { Subscribe } from "unstated";
+import * as Random from 'random-seed';
 
 import GlobalContainer from 'app/containers/GlobalContainer';
 import { MonoText } from 'app/components/StyledText';
@@ -16,26 +17,38 @@ const createFilter = (categories) => {
   return filter;
 }
 
+const applyFilter = (items, filter) => {
+  const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
+  return items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
+}
+
+const shuffleItems = (items, seed) => {
+  const gen = Random.create(seed);
+  //Fisher–Yates Algorithms
+  for (let i = items.length - 1; i > 0; i--) {
+    const r = Math.floor(gen.random() * (i + 1));
+    const tmp = items[i];
+    items[i] = items[r];
+    items[r] = tmp;
+  }
+  return items;
+}
+
 class HomeScreenContent extends React.Component {
 
   constructor(props) {
     super(props);
     const filter = createFilter(this.props.globalState.state.categories);
-    const items = this.props.globalState.state.dishes;
+    //const items = this.props.globalState.state.dishes;
     this.state = {
       filter: filter,
-      items: items
+      seed: 0,
+      //items: items
     };
   }
 
   updateFilter = (filter) => {
-    let items = this.props.globalState.state.dishes;
-    if (filter.enable) {
-      const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
-
-      items = items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
-    }
-    this.setState({ filter: filter, items: items });
+    this.setState({ filter: filter });
   }
 
   filterClick = () => {
@@ -44,19 +57,17 @@ class HomeScreenContent extends React.Component {
   }
 
   shuffleClick = () => {
-    const array = this.state.items;
-    //Fisher–Yates Algorithms
-    for (let i = array.length - 1; i > 0; i--) {
-      const r = Math.floor(Math.random() * (i + 1));
-      const tmp = array[i];
-      array[i] = array[r];
-      array[r] = tmp;
-    }
-    this.setState({ items: array });
+    this.setState({ seed: Math.random() });
   }
 
   render() {
-    const { items } = this.state;
+    let items = this.props.globalState.state.dishes;
+    if (this.state.seed != 0) {
+      items = shuffleItems(items, this.state.seed);
+    }
+    if (this.state.filter.enable) {
+      items = applyFilter(items, this.state.filter);
+    }
 
     return (
       <View style={styles.container}>
@@ -86,15 +97,16 @@ class HomeScreenContent extends React.Component {
         </View>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.container}>
-            {
-              items.map((item, i) => (
+            <FlatList
+              data={items}
+              keyExtractor={(item, i) => i.toString()}
+              renderItem={({ item, index }) => (
                 <ListItem
-                  key={i}
+                  key={index}
                   title={item.name}
                 />
-              ))
-            }
-
+              )}
+            />
           </View></ScrollView>
         <View style={styles.fixedShuffleView}>
           <Button

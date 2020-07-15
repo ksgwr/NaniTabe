@@ -1,6 +1,6 @@
 [*] 設定の料理管理をFlatListに置き換え
-[ ] 料理追加の画面作成
-[ ] HomeをFlatList, stateからpropertyに書き換え
+[*] 料理追加の画面作成
+[*] HomeをFlatList, stateからpropertyに書き換え
 [ ] Homeを外食に対応
 [ ] カテゴリ管理画面を追加
 [ ] カテゴリから料理の管理画面を追加
