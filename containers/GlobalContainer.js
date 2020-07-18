@@ -18,8 +18,8 @@ export default class GlobalContainer extends Container {
 
     writeDishes = async (dishes) => {
         try {
-            const minDishes = dishes.map(({ name, genre, taste, ingredients, dishType, other }) => (
-                { name, genre, taste, ingredients, dishType, other }
+            const minDishes = dishes.map(({ name, place, genre, taste, ingredients, dishType, other }) => (
+                { name, place, genre, taste, ingredients, dishType, other }
             ));
             AsyncStorage.setItem('dishes', JSON.stringify(minDishes));
 

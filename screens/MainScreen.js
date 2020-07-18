@@ -22,6 +22,10 @@ const applyFilter = (items, filter) => {
   return items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
 }
 
+const applyTargetFilter = (items, target) => {
+  return items.filter(x => x.place.find(y => y.indexOf(target) >= 0));
+}
+
 const shuffleItems = (items, seed) => {
   const gen = Random.create(seed);
   //Fisher–Yates Algorithms
@@ -34,12 +38,11 @@ const shuffleItems = (items, seed) => {
   return items;
 }
 
-class HomeScreenContent extends React.Component {
+class MainScreenContent extends React.Component {
 
   constructor(props) {
     super(props);
     const filter = createFilter(this.props.globalState.state.categories);
-    //const items = this.props.globalState.state.dishes;
     this.state = {
       filter: filter,
       seed: 0,
@@ -61,10 +64,11 @@ class HomeScreenContent extends React.Component {
   }
 
   render() {
-    let items = this.props.globalState.state.dishes;
+    let items = [...this.props.globalState.state.dishes];
     if (this.state.seed != 0) {
       items = shuffleItems(items, this.state.seed);
     }
+    items = applyTargetFilter(items, this.props.target);
     if (this.state.filter.enable) {
       items = applyFilter(items, this.state.filter);
     }
@@ -126,15 +130,15 @@ class HomeScreenContent extends React.Component {
   }
 }
 
-const HomeScreen = ({ navigation }) => {
+const MainScreen = ({ navigation, target }) => {
   return (
     <Subscribe to={[GlobalContainer]}>
-      {globalState => <HomeScreenContent globalState={globalState} navigation={navigation} />}
+      {globalState => <MainScreenContent globalState={globalState} navigation={navigation} target={target} />}
     </Subscribe>
   )
 }
 
-HomeScreen.navigationOptions = {
+MainScreen.navigationOptions = {
   header: null,
 };
 
@@ -255,4 +259,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+export default MainScreen;

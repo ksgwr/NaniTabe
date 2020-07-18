@@ -1,7 +1,9 @@
 export default {
     placeList: [
-        { name: 'お家' },
-        { name: '外食' },
+        { name: 'お家・昼' },
+        { name: 'お家・夜' },
+        { name: '外食・昼' },
+        { name: '外食・夜' },
     ],
     genreList: [
         { name: '洋食' },

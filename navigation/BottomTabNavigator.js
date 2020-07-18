@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import TabBarIcon from 'app/components/TabBarIcon';
 import HomeNavigator from 'app/navigation/HomeNavigator';
+import RestaurantNavigator from 'app/navigation/RestaurantNavigator';
 import SettingNavigator from 'app/navigation/SettingNavigator';
-import LinksScreen from 'app/screens/LinksScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -28,8 +28,8 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name="Restaurant"
+        component={RestaurantNavigator}
         options={{
           title: '外食',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-restaurant" />,
@@ -53,7 +53,7 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return 'お家';
-    case 'Links':
+    case 'Restaurant':
       return '外食';
     case 'Setting':
       return '設定'

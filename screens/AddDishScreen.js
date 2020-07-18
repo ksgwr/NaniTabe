@@ -8,8 +8,8 @@ import { Subscribe } from "unstated";
 
 import GlobalContainer from 'app/containers/GlobalContainer';
 
-const initListForCheckbox = (target) => {
-    target.map(x => x.checked = false);
+const initListForCheckbox = (target, defaultValue = false) => {
+    target.map(x => x.checked = defaultValue);
 }
 
 const transList = (list) => {
@@ -27,7 +27,7 @@ class AddDishScreenContent extends React.Component {
             dishTypeList,
             otherList,
         } = this.props.route.params.categories;
-        initListForCheckbox(placeList);
+        initListForCheckbox(placeList, true);
         initListForCheckbox(genreList);
         initListForCheckbox(tasteList);
         initListForCheckbox(ingredientList);
@@ -41,7 +41,7 @@ class AddDishScreenContent extends React.Component {
             ingredientList: ingredientList,
             dishTypeList: dishTypeList,
             otherList: otherList,
-            error: false
+            error: ''
         };
     }
 
@@ -50,7 +50,12 @@ class AddDishScreenContent extends React.Component {
     }
 
     changeText = (name) => {
-        const error = this.props.globalState.state.dishes.find(x => x.name == name) ? true : false;
+        let error = null;
+        if (name == '') {
+            error = '文字を入力してください';
+        } else if (this.props.globalState.state.dishes.find(x => x.name == name)) {
+            error = '既に登録済みの料理名です';
+        }
         this.setState({ name: name, error: error });
     }
 
@@ -95,8 +100,8 @@ class AddDishScreenContent extends React.Component {
                     placeholder="料理名"
                     style={{ width: 200, height: 44, padding: 8 }}
                 />
-                {this.state.error &&
-                    (<Text style={{ color: "red" }}>既に登録済みの料理名です</Text>)
+                {this.state.error != null &&
+                    (<Text style={{ color: "red" }}>{this.state.error}</Text>)
                 }
                 <Text>食べる場所</Text>
                 {
@@ -174,7 +179,7 @@ class AddDishScreenContent extends React.Component {
                     }
                     title="追加"
                     onPress={this.saveClick}
-                    disabled={this.state.error}
+                    disabled={this.state.error != null}
                 />
             </ScrollView>
         );

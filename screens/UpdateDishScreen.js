@@ -32,7 +32,7 @@ class UpdateDishScreenContent extends React.Component {
             dishTypeList,
             otherList,
         } = this.props.route.params.categories;
-        //initListForCheckbox(placeList, item.place);
+        initListForCheckbox(placeList, item.place);
         initListForCheckbox(genreList, item.genre);
         initListForCheckbox(tasteList, item.taste);
         initListForCheckbox(ingredientList, item.ingredients);

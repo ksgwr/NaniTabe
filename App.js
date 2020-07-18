@@ -7,7 +7,6 @@ import { Provider } from "unstated";
 
 import useCachedResources from 'app/hooks/useCachedResources';
 import BottomTabNavigator from 'app/navigation/BottomTabNavigator';
-import LinkingConfiguration from 'app/navigation/LinkingConfiguration';
 import GlobalContainer from 'app/containers/GlobalContainer';
 
 
@@ -31,7 +30,7 @@ export default function App(props) {
       <Provider inject={[container]}>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-          <NavigationContainer linking={LinkingConfiguration}>
+          <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
             </Stack.Navigator>
