@@ -11,7 +11,12 @@ export default class GlobalContainer extends Container {
         this.state = {
             dishes: [],
             categories: {
-                genreList: []
+                placeList: [],
+                genreList: [],
+                tasteList: [],
+                ingredientList: [],
+                dishTypeList: [],
+                otherList: [],
             }
         };
     }
@@ -25,6 +30,24 @@ export default class GlobalContainer extends Container {
 
             this.setState({
                 dishes: minDishes
+            });
+        } catch (e) {
+            console.warn(e);
+        }
+    }
+
+    writeCategories = async (categories) => {
+        try {
+            const minCategories = {};
+            Object.keys(categories).map(key =>
+                minCategories[key] = categories[key].map(({ name }) => (
+                    { name }
+                ))
+            );
+            AsyncStorage.setItem('categories', JSON.stringify(minCategories));
+
+            this.setState({
+                categories: minCategories
             });
         } catch (e) {
             console.warn(e);

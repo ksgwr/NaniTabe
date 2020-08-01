@@ -60,7 +60,7 @@ class DishesSettingScreenContent extends React.Component {
                 }
             ],
             {
-                cancelable: false
+                cancelable: true
             }
         )
     }
@@ -73,7 +73,6 @@ class DishesSettingScreenContent extends React.Component {
     itemClick = (name) => {
         const { navigation } = this.props;
         const item = this.props.globalState.state.dishes.find(x => x.name == name);
-        console.log(item);
         navigation.navigate('UpdateDish', { categories: this.props.globalState.state.categories, item: item });
     }
 
