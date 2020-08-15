@@ -10,8 +10,9 @@ import { Subscribe } from "unstated";
 import GlobalContainer from 'app/containers/GlobalContainer';
 import EditLink from 'app/components/EditLink';
 
-const addKeyList = (target, key) => {
+const addCommonDataList = (target, key, editable = true) => {
     target.map(x => x.key = key);
+    target.map(x => x.editable = editable);
 }
 
 const createStickyHeaderIndices = (items) => {
@@ -101,19 +102,16 @@ class CategoriesSettingScreenContent extends React.Component {
 
         //console.log(categories);
 
-        const firstItems = [
-            { header: true, name: "場所" },
-            ...placeList
-        ]
-
-        addKeyList(placeList, 'placeList');
-        addKeyList(genreList, 'genreList');
-        addKeyList(tasteList, 'tasteList');
-        addKeyList(ingredientList, 'ingredientList');
-        addKeyList(dishTypeList, 'dishTypeList');
-        addKeyList(otherList, 'otherList');
+        addCommonDataList(placeList, 'placeList', false);
+        addCommonDataList(genreList, 'genreList');
+        addCommonDataList(tasteList, 'tasteList');
+        addCommonDataList(ingredientList, 'ingredientList');
+        addCommonDataList(dishTypeList, 'dishTypeList');
+        addCommonDataList(otherList, 'otherList');
 
         const items = [
+            { header: true, name: "場所", key: 'placeList' },
+            ...placeList,
             { header: true, name: "*ジャンル", key: "genreList" },
             ...genreList,
             { header: true, name: "*味", key: "tasteList" },
@@ -129,7 +127,7 @@ class CategoriesSettingScreenContent extends React.Component {
         //const stickyHeaderIndices = createStickyHeaderIndices(items);
 
         return (
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <View style={styles.container} contentContainerStyle={styles.contentContainer}>
                 {editClick ?
                     (
                         <Text style={{ alignSelf: 'center', margin: 20 }}>新しくカテゴリを追加</Text>
@@ -144,50 +142,13 @@ class CategoriesSettingScreenContent extends React.Component {
                     editClick ?
                         (
                             <FlatList
-                                data={firstItems}
-                                keyExtractor={(item, i) => i.toString()}
-                                renderItem={({ item, index }) => {
-                                    if (item.header) {
-                                        return <Text>{item.name}</Text>
-                                    } else {
-                                        return (
-                                            <ListItem
-                                                title={item.name}
-                                            />
-                                        )
-                                    }
-
-                                }}
-                            />
-                        ) : (
-                            <FlatList
-                                data={firstItems}
-                                keyExtractor={(item, i) => i.toString()}
-                                //stickyHeaderIndices={stickyHeaderIndices}
-                                renderItem={({ item }) => {
-                                    if (item.header) {
-                                        return <Text>{item.name}</Text>
-                                    } else {
-                                        return (<ListItem
-                                            title={item.name}
-                                            onPress={this.itemClick.bind(this, item)}
-                                        />)
-                                    }
-                                }}
-                            />
-                        )
-                }
-                {
-                    editClick ?
-                        (
-                            <FlatList
                                 data={items}
                                 keyExtractor={(item, i) => i.toString()}
                                 renderItem={({ item, index }) => {
                                     if (item.header) {
                                         return <Text>{item.name}</Text>
                                     } else {
-                                        return (
+                                        return item.editable ? (
                                             <ListItem
                                                 title={<CheckBox
                                                     key={index}
@@ -201,7 +162,11 @@ class CategoriesSettingScreenContent extends React.Component {
                                                     }}
                                                 />}
                                             />
-                                        )
+                                        ) : (
+                                                <ListItem
+                                                    title={item.name}
+                                                />
+                                            )
                                     }
 
                                 }}
@@ -239,7 +204,7 @@ class CategoriesSettingScreenContent extends React.Component {
                             onPress={this.deleteClickConfirm}
                         /></View>)
                 }
-            </ScrollView>
+            </View>
         );
     }
 }
