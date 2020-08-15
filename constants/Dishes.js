@@ -4,7 +4,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['洋食'],
         taste: ['がっつり'],
-        ingredients: ['牛ひき肉'],
+        ingredient: ['牛ひき肉'],
         dishType: ['メイン'],
         other: []
     },
@@ -13,7 +13,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['がっつり', '揚げ物'],
-        ingredients: ['鶏肉'],
+        ingredient: ['鶏肉'],
         dishType: ['メイン'],
         other: []
     },
@@ -22,7 +22,7 @@ export default [
         place: ['外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['揚げ物'],
-        ingredients: ['ジャガイモ'],
+        ingredient: ['ジャガイモ'],
         dishType: ['メイン', 'サイド'],
         other: []
     },
@@ -31,7 +31,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['中華'],
         taste: ['塩辛い'],
-        ingredients: ['米'],
+        ingredient: ['米'],
         dishType: ['メイン'],
         other: []
     },
@@ -40,7 +40,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['辛い'],
-        ingredients: ['米', 'カレー'],
+        ingredient: ['米', 'カレー'],
         dishType: ['メイン'],
         other: []
     },
@@ -49,7 +49,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['塩辛い'],
-        ingredients: ['野菜'],
+        ingredient: ['野菜'],
         dishType: ['メイン'],
         other: []
     },
@@ -58,7 +58,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['がっつり'],
-        ingredients: ['豚肉'],
+        ingredient: ['豚肉'],
         dishType: ['メイン'],
         other: []
     },
@@ -67,7 +67,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['洋食'],
         taste: [],
-        ingredients: ['卵'],
+        ingredient: ['卵'],
         dishType: ['メイン'],
         other: []
     },
@@ -76,7 +76,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['中華'],
         taste: ['ツマミ'],
-        ingredients: ['豚ひき肉'],
+        ingredient: ['豚ひき肉'],
         dishType: ['メイン'],
         other: []
     },
@@ -85,7 +85,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['洋食'],
         taste: ['がっつり'],
-        ingredients: ['牛肉'],
+        ingredient: ['牛肉'],
         dishType: ['メイン'],
         other: []
     },
@@ -94,7 +94,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['温まる'],
-        ingredients: [],
+        ingredient: [],
         dishType: ['メイン'],
         other: []
     },
@@ -103,7 +103,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['温まる'],
-        ingredients: ['牛肉', '卵'],
+        ingredient: ['牛肉', '卵'],
         dishType: ['メイン'],
         other: []
     },
@@ -112,7 +112,7 @@ export default [
         place: ['お家・昼', 'お家・夜', '外食・昼', '外食・夜'],
         genre: ['家庭料理'],
         taste: ['がっつり'],
-        ingredients: ['肉'],
+        ingredient: ['肉'],
         dishType: ['メイン'],
         other: []
     }

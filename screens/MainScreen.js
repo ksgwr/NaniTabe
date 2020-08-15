@@ -13,13 +13,13 @@ const createFilter = (categories) => {
   // deep copy filter
   const filter = JSON.parse(JSON.stringify(categories));
   filter.enable = false;
-  filter.genreList.forEach(x => x.check = false);
+  filter.genre.forEach(x => x.check = false);
   return filter;
 }
 
 const applyFilter = (items, filter) => {
-  const enableGenreList = filter.genreList.filter(x => x.check).map(x => x.name);
-  return items.filter(x => x.genre.find(y => enableGenreList.find(z => y.indexOf(z) >= 0)));
+  const enableGenre = filter.genre.filter(x => x.check).map(x => x.name);
+  return items.filter(x => x.genre.find(y => enableGenre.find(z => y.indexOf(z) >= 0)));
 }
 
 const applyTargetFilter = (items, target) => {
@@ -56,6 +56,7 @@ class MainScreenContent extends React.Component {
 
   filterClick = () => {
     const { navigation } = this.props;
+    console.log(this.state.filter);
     navigation.navigate('Filter', { filter: this.state.filter, updateFilter: this.updateFilter });
   }
 
@@ -78,7 +79,7 @@ class MainScreenContent extends React.Component {
         <View style={styles.filterView}>
           {
             this.state.filter.enable ?
-              this.state.filter.genreList.filter(x => x.check).map((x, i) => (
+              this.state.filter.genre.filter(x => x.check).map((x, i) => (
                 <Text
                   key={i}
                   name={x.name}>{x.name}</Text>

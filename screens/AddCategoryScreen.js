@@ -14,7 +14,7 @@ class AddCategoryScreenContent extends React.Component {
         super(props);
         this.state = {
             name: '',
-            category: 'genreList'
+            category: 'genre'
         };
     }
 
@@ -49,11 +49,11 @@ class AddCategoryScreenContent extends React.Component {
                     selectedValue={this.state.category}
                     style={{ height: 50, width: 300 }}
                     onValueChange={(itemValue, itemIndex) => this.setState({ category: itemValue })}>
-                    <Picker.Item label="ジャンル" value="genreList" />
-                    <Picker.Item label="味" value="tasteList" />
-                    <Picker.Item label="材料" value="ingredientList" />
-                    <Picker.Item label="メイン/サイド" value="dishTypeList" />
-                    <Picker.Item label="その他" value="otherList" />
+                    <Picker.Item label="ジャンル" value="genre" />
+                    <Picker.Item label="味" value="taste" />
+                    <Picker.Item label="材料" value="ingredient" />
+                    <Picker.Item label="メイン/サイド" value="dishType" />
+                    <Picker.Item label="その他" value="other" />
                 </Picker>
                 <TextInput
                     value={this.state.name}

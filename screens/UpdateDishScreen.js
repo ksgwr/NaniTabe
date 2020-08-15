@@ -25,27 +25,27 @@ class UpdateDishScreenContent extends React.Component {
     constructor(props) {
         super(props);
         const { item } = this.props.route.params;
-        const { placeList,
-            genreList,
-            tasteList,
-            ingredientList,
-            dishTypeList,
-            otherList,
+        const { place,
+            genre,
+            taste,
+            ingredient,
+            dishType,
+            other,
         } = this.props.route.params.categories;
-        initListForCheckbox(placeList, item.place);
-        initListForCheckbox(genreList, item.genre);
-        initListForCheckbox(tasteList, item.taste);
-        initListForCheckbox(ingredientList, item.ingredients);
-        initListForCheckbox(dishTypeList, item.dishType);
-        initListForCheckbox(otherList, item.other);
+        initListForCheckbox(place, item.place);
+        initListForCheckbox(genre, item.genre);
+        initListForCheckbox(taste, item.taste);
+        initListForCheckbox(ingredient, item.ingredient);
+        initListForCheckbox(dishType, item.dishType);
+        initListForCheckbox(other, item.other);
         this.state = {
             name: item.name,
-            placeList: placeList,
-            genreList: genreList,
-            tasteList: tasteList,
-            ingredientList: ingredientList,
-            dishTypeList: dishTypeList,
-            otherList: otherList,
+            place: place,
+            genre: genre,
+            taste: taste,
+            ingredient: ingredient,
+            dishType: dishType,
+            other: other,
             error: false
         };
     }
@@ -71,11 +71,11 @@ class UpdateDishScreenContent extends React.Component {
         const items = this.props.globalState.state.dishes;
         const item = items.find(x => x.name == this.state.name)
 
-        item.place = transList(this.state.placeList);
-        item.genre = transList(this.state.genreList);
-        item.ingredients = transList(this.state.ingredientList);
-        item.dishType = transList(this.state.dishTypeList);
-        item.other = transList(this.state.otherList);
+        item.place = transList(this.state.place);
+        item.genre = transList(this.state.genre);
+        item.ingredient = transList(this.state.ingredient);
+        item.dishType = transList(this.state.dishType);
+        item.other = transList(this.state.other);
 
         this.props.globalState.writeDishes(items);
         navigation.goBack();
@@ -87,67 +87,67 @@ class UpdateDishScreenContent extends React.Component {
                 <Text>{this.state.name}</Text>
                 <Text>食べる場所</Text>
                 {
-                    this.state.placeList.map((x, i) => (
+                    this.state.place.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'placeList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'place')}
                         />
                     ))
                 }
                 <Text>ジャンル</Text>
                 {
-                    this.state.genreList.map((x, i) => (
+                    this.state.genre.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'genreList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'genre')}
                         />
                     ))
                 }
                 <Text>味</Text>
                 {
-                    this.state.tasteList.map((x, i) => (
+                    this.state.taste.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'tasteList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'taste')}
                         />
                     ))
                 }
                 <Text>材料</Text>
                 {
-                    this.state.ingredientList.map((x, i) => (
+                    this.state.ingredient.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'ingredientList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'ingredient')}
                         />
                     ))
                 }
                 <Text>メイン/サイド</Text>
                 {
-                    this.state.dishTypeList.map((x, i) => (
+                    this.state.dishType.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'dishTypeList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'dishType')}
                         />
                     ))
                 }
                 <Text>その他</Text>
                 {
-                    this.state.otherList.map((x, i) => (
+                    this.state.other.map((x, i) => (
                         <CheckBox
                             key={i}
                             title={x.name}
                             checked={x.checked}
-                            onPress={this.clickCheck.bind(this, x, i, 'otherList')}
+                            onPress={this.clickCheck.bind(this, x, i, 'other')}
                         />
                     ))
                 }

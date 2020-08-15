@@ -7,15 +7,15 @@ export default class FilterScreen extends React.Component {
         super(props);
         const { filter } = this.props.route.params;
         this.state = {
-            genreList: filter.genreList
+            genre: filter.genre
         };
     }
 
     submit = () => {
         const { navigation } = this.props;
         const filter = {
-            enable: this.state.genreList.filter(x => x.check).length > 0,
-            genreList: this.state.genreList
+            enable: this.state.genre.filter(x => x.check).length > 0,
+            genre: this.state.genre
         };
         this.props.route.params.updateFilter(filter);
         navigation.goBack();
@@ -23,21 +23,21 @@ export default class FilterScreen extends React.Component {
 
 
     render() {
-        const { genreList, genreCheckList } = this.state;
+        const { genre } = this.state;
 
         return (
             <View style={styles.container}>
                 <Text>絞り込み画面</Text>
                 <View style={styles.term}>
                     {
-                        genreList.map((genre, i) => (
+                        genre.map((x, i) => (
                             <CheckBox
                                 key={i}
-                                title={genre.name}
-                                checked={genre.check}
+                                title={x.name}
+                                checked={x.check}
                                 onPress={() => {
-                                    genreList[i].check = !genreList[i].check;
-                                    this.setState({ genreList: genreList })
+                                    genre[i].check = !genre[i].check;
+                                    this.setState({ genre: genre })
                                 }}
                             />
                         ))

@@ -1,16 +1,16 @@
 export default {
-    placeList: [
+    place: [
         { name: 'お家・昼' },
         { name: 'お家・夜' },
         { name: '外食・昼' },
         { name: '外食・夜' },
     ],
-    genreList: [
+    genre: [
         { name: '洋食' },
         { name: '中華' },
         { name: '家庭料理' },
     ],
-    tasteList: [
+    taste: [
         { name: 'がっつり' },
         { name: '揚げ物' },
         { name: '塩辛い' },
@@ -18,7 +18,7 @@ export default {
         { name: 'ツマミ' },
         { name: '温まる' },
     ],
-    ingredientList: [
+    ingredient: [
         { name: '肉' },
         { name: '牛肉' },
         { name: '牛ひき肉' },
@@ -31,11 +31,11 @@ export default {
         { name: '野菜' },
         { name: '卵' },
     ],
-    dishTypeList: [
+    dishType: [
         { name: 'メイン' },
         { name: 'サイド' },
     ],
-    otherList: [
+    other: [
 
     ]
 };

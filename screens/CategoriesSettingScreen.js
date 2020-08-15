@@ -87,41 +87,48 @@ class CategoriesSettingScreenContent extends React.Component {
 
     addClick = () => {
         const { navigation } = this.props;
-        navigation.navigate('AddCategory', { categories: this.props.globalState.state.categories });
+        navigation.navigate('AddCategory', {
+            categories: this.props.globalState.state.categories,
+            dishes: this.props.globalState.state.dishes,
+        });
     }
 
     itemClick = (item) => {
         const { navigation } = this.props;
-        navigation.navigate('UpdateCategory', { categories: this.props.globalState.state.categories, item: item });
+        navigation.navigate('UpdateCategory', {
+            categories: this.props.globalState.state.categories,
+            dishes: this.props.globalState.state.dishes,
+            item: item
+        });
     }
 
     render() {
         const { editClick } = this.state;
         const { categories } = this.props.globalState.state;
-        const { placeList, genreList, tasteList, ingredientList, dishTypeList, otherList } = categories;
+        const { place, genre, taste, ingredient, dishType, other } = categories;
 
         //console.log(categories);
 
-        addCommonDataList(placeList, 'placeList', false);
-        addCommonDataList(genreList, 'genreList');
-        addCommonDataList(tasteList, 'tasteList');
-        addCommonDataList(ingredientList, 'ingredientList');
-        addCommonDataList(dishTypeList, 'dishTypeList');
-        addCommonDataList(otherList, 'otherList');
+        addCommonDataList(place, 'place', false);
+        addCommonDataList(genre, 'genre');
+        addCommonDataList(taste, 'taste');
+        addCommonDataList(ingredient, 'ingredient');
+        addCommonDataList(dishType, 'dishType');
+        addCommonDataList(other, 'other');
 
         const items = [
-            { header: true, name: "場所", key: 'placeList' },
-            ...placeList,
-            { header: true, name: "*ジャンル", key: "genreList" },
-            ...genreList,
-            { header: true, name: "*味", key: "tasteList" },
-            ...tasteList,
-            { header: true, name: "*材料", key: "ingredientList" },
-            ...ingredientList,
-            { header: true, name: "*メイン/サイド", key: "dishTypeList" },
-            ...dishTypeList,
-            { header: true, name: "*その他", key: "otherList" },
-            ...otherList,
+            { header: true, name: "場所", key: 'place' },
+            ...place,
+            { header: true, name: "*ジャンル", key: "genre" },
+            ...genre,
+            { header: true, name: "*味", key: "taste" },
+            ...taste,
+            { header: true, name: "*材料", key: "ingredient" },
+            ...ingredient,
+            { header: true, name: "*メイン/サイド", key: "dishType" },
+            ...dishType,
+            { header: true, name: "*その他", key: "other" },
+            ...other,
         ];
         // https://docs.nativebase.io/docs/examples/FlatListExample.html
         //const stickyHeaderIndices = createStickyHeaderIndices(items);

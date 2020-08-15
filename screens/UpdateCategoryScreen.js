@@ -12,7 +12,7 @@ class UpdateCategoryScreenContent extends React.Component {
 
     constructor(props) {
         super(props);
-        const { item } = this.props.route.params;
+        const { item, dishes } = this.props.route.params;
 
         this.state = {
             name: item.name,
