@@ -8,14 +8,27 @@ import { Subscribe } from "unstated";
 
 import GlobalContainer from 'app/containers/GlobalContainer';
 
+const filterDishes = (dishes, target, name, exist) => {
+    const filterDishes = dishes.filter(x => x[target].includes(name) == exist);
+    filterDishes.map(x => x.edit = exist);
+    filterDishes.map(x => x.initial = exist);
+    return filterDishes;
+}
+
 class UpdateCategoryScreenContent extends React.Component {
 
     constructor(props) {
         super(props);
         const { item, dishes } = this.props.route.params;
-
+        const enableDishes = filterDishes(dishes, item.key, item.name, true);
+        const disableDishes = filterDishes(dishes, item.key, item.name, false);
+        const items = [
+            ...enableDishes,
+            ...disableDishes
+        ];
         this.state = {
             name: item.name,
+            items: items,
             error: false
         };
     }
@@ -33,22 +46,43 @@ class UpdateCategoryScreenContent extends React.Component {
     }
 
     render() {
+        const { items } = this.state;
         return (
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <View style={styles.container} contentContainerStyle={styles.contentContainer}>
                 <Text>{this.state.name}</Text>
-                <Button
-                    icon={
-                        <Icon
-                            name="save"
-                            size={20}
-                            color="white"
+                <Text>関連料理</Text>
+                <FlatList
+                    data={items}
+                    keyExtractor={(item, i) => i.toString()}
+                    renderItem={({ item, index }) => (
+                        <ListItem
+                            title={<CheckBox
+                                key={index}
+                                title={item.name}
+                                checked={item.edit}
+                                onPress={() => {
+                                    items[index].edit = !items[index].edit;
+                                    this.setState({ items: items });
+                                }}
+                            />}
                         />
-                    }
-                    title="更新"
-                    onPress={this.saveClick}
-                    disabled={this.state.error}
+                    )}
                 />
-            </ScrollView>
+                <View style={styles.fixedDeleteView}>
+                    <Button
+                        icon={
+                            <Icon
+                                name="save"
+                                size={20}
+                                color="white"
+                            />
+                        }
+                        title="更新"
+                        onPress={this.saveClick}
+                        disabled={this.state.error}
+                    />
+                </View>
+            </View>
         );
     }
 }
