@@ -15,6 +15,18 @@ const filterDishes = (dishes, target, name, exist) => {
     return filterDishes;
 }
 
+const createMaps = (items) => {
+    const updateMaps = {};
+    items.forEach(x => {
+        if (x.initial != x.edit) {
+            updateMaps[x.name] = {
+                add: x.edit
+            };
+        }
+    });
+    return updateMaps;
+}
+
 class UpdateCategoryScreenContent extends React.Component {
 
     constructor(props) {
@@ -28,6 +40,7 @@ class UpdateCategoryScreenContent extends React.Component {
         ];
         this.state = {
             name: item.name,
+            key: item.key,
             items: items,
             error: false
         };
@@ -39,9 +52,25 @@ class UpdateCategoryScreenContent extends React.Component {
 
     saveClick = () => {
         const { navigation } = this.props;
-
-        // TODO
-
+        const dishes = this.props.globalState.state.dishes;
+        const updateMaps = createMaps(this.state.items);
+        console.log(updateMaps);
+        if (Object.keys(updateMaps).length > 0) {
+            dishes.forEach(x => {
+                if (x.name in updateMaps) {
+                    if (updateMaps[x.name].add) {
+                        x[this.state.key].push(this.state.name);
+                    } else {
+                        const i = x[this.state.key].indexOf(this.state.name);
+                        if (i >= 0) {
+                            x[this.state.key].splice(i, 1);
+                        }
+                    }
+                }
+            });
+            console.log(dishes);
+            this.props.globalState.writeDishes(dishes);
+        }
         navigation.goBack();
     }
 
