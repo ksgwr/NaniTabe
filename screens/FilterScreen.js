@@ -1,47 +1,84 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, FlatList, TouchableOpacity, View } from 'react-native';
 import { ListItem, Button, Icon, CheckBox } from 'react-native-elements';
+
+const addCommonDataList = (target, key) => {
+    target.map(x => x.key = key);
+}
+
+const checkEnable = (filter) => {
+    return filter.genre.some(x => x.check)
+        || filter.taste.some(x => x.check)
+        || filter.ingredient.some(x => x.check)
+        || filter.dishType.some(x => x.check)
+        || filter.other.some(x => x.check);
+}
+
 
 export default class FilterScreen extends React.Component {
     constructor(props) {
         super(props);
         const { filter } = this.props.route.params;
         this.state = {
-            genre: filter.genre
+            filter: filter
         };
     }
 
     submit = () => {
         const { navigation } = this.props;
-        const filter = {
-            enable: this.state.genre.filter(x => x.check).length > 0,
-            genre: this.state.genre
-        };
+        const { filter } = this.state;
+        filter.enable = checkEnable(filter);
         this.props.route.params.updateFilter(filter);
         navigation.goBack();
     }
 
 
     render() {
-        const { genre } = this.state;
+        const { filter } = this.state;
+        const { genre, taste, ingredient, dishType, other } = filter;
+
+        addCommonDataList(genre, 'genre');
+        addCommonDataList(taste, 'taste');
+        addCommonDataList(ingredient, 'ingredient');
+        addCommonDataList(dishType, 'dishType');
+        addCommonDataList(other, 'other');
+
+        const items = [
+            { header: true, name: "*ジャンル", key: "genre" },
+            ...genre,
+            { header: true, name: "*味", key: "taste" },
+            ...taste,
+            { header: true, name: "*材料", key: "ingredient" },
+            ...ingredient,
+            { header: true, name: "*メイン/サイド", key: "dishType" },
+            ...dishType,
+            { header: true, name: "*その他", key: "other" },
+            ...other,
+        ]
 
         return (
             <View style={styles.container}>
                 <Text>絞り込み画面</Text>
                 <View style={styles.term}>
-                    {
-                        genre.map((x, i) => (
-                            <CheckBox
-                                key={i}
-                                title={x.name}
-                                checked={x.check}
-                                onPress={() => {
-                                    genre[i].check = !genre[i].check;
-                                    this.setState({ genre: genre })
-                                }}
-                            />
-                        ))
-                    }
+                    <FlatList
+                        data={items}
+                        keyExtractor={(item, i) => i.toString()}
+                        renderItem={({ item, index }) => {
+                            if (item.header) {
+                                return <Text>{item.name}</Text>
+                            } else {
+                                return <CheckBox
+                                    key={index}
+                                    title={item.name}
+                                    checked={item.check}
+                                    onPress={() => {
+                                        items[index].check = !items[index].check;
+                                        this.setState({ filter: filter });
+                                    }}
+                                />
+                            }
+                        }}
+                    />
                 </View>
                 <View style={styles.bottom}>
                     <Button
@@ -85,6 +122,7 @@ const styles = StyleSheet.create({
     },
     bottom: {
         flexDirection: 'row',
-        backgroundColor: 'yellow'
+        backgroundColor: 'yellow',
+        marginBottom: 100
     }
 });

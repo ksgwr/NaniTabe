@@ -14,12 +14,45 @@ const createFilter = (categories) => {
   const filter = JSON.parse(JSON.stringify(categories));
   filter.enable = false;
   filter.genre.forEach(x => x.check = false);
+  filter.taste.forEach(x => x.check = false);
+  filter.ingredient.forEach(x => x.check = false);
+  filter.dishType.forEach(x => x.check = false);
+  filter.other.forEach(x => x.check = false);
   return filter;
 }
 
+const mergeFilter = (categories, filter) => {
+  const mainCategories = ['genre', 'taste', 'ingredient', 'dishType', 'other'];
+  const newFilter = JSON.parse(JSON.stringify(categories));
+  mainCategories.map(mainCategory => {
+    const checkMap = filter[mainCategory].length > 0 ? filter[mainCategory].reduce((map, obj) => {
+      map[obj.name] = obj.check;
+      return map;
+    }) : {};
+    newFilter[mainCategory].map(x => {
+      if (x.name in checkMap) {
+        x.check = checkMap[x.name];
+      } else {
+        x.check = false;
+      }
+    })
+    filter[mainCategory] = newFilter[mainCategory];
+  });
+}
+
+const filterTarget = (items, filter, target) => {
+  const enables = filter[target].filter(x => x.check).map(x => x.name);
+  return enables.length > 0 ? items.filter(x => x[target].find(y => enables.find(z => y.indexOf(z) >= 0))) : items;
+}
+
 const applyFilter = (items, filter) => {
-  const enableGenre = filter.genre.filter(x => x.check).map(x => x.name);
-  return items.filter(x => x.genre.find(y => enableGenre.find(z => y.indexOf(z) >= 0)));
+  let newItems = items;
+  newItems = filterTarget(newItems, filter, 'genre');
+  newItems = filterTarget(newItems, filter, 'taste');
+  newItems = filterTarget(newItems, filter, 'ingredient');
+  newItems = filterTarget(newItems, filter, 'dishType');
+  newItems = filterTarget(newItems, filter, 'other');
+  return newItems;
 }
 
 const applyTargetFilter = (items, target) => {
@@ -56,7 +89,6 @@ class MainScreenContent extends React.Component {
 
   filterClick = () => {
     const { navigation } = this.props;
-    console.log(this.state.filter);
     navigation.navigate('Filter', { filter: this.state.filter, updateFilter: this.updateFilter });
   }
 
@@ -65,6 +97,9 @@ class MainScreenContent extends React.Component {
   }
 
   render() {
+    // TODO: globalStateからfilterを初期化する。フィルターの要素はstateのfilterでやり取りして毎回マージする処理を書く
+    mergeFilter(this.props.globalState.state.categories, this.state.filter);
+    const mainCategories = ['genre', 'taste', 'ingredient', 'dishType', 'other'];
     let items = [...this.props.globalState.state.dishes];
     if (this.state.seed != 0) {
       items = shuffleItems(items, this.state.seed);
@@ -73,17 +108,19 @@ class MainScreenContent extends React.Component {
     if (this.state.filter.enable) {
       items = applyFilter(items, this.state.filter);
     }
-
     return (
       <View style={styles.container}>
         <View style={styles.filterView}>
           {
             this.state.filter.enable ?
-              this.state.filter.genre.filter(x => x.check).map((x, i) => (
-                <Text
-                  key={i}
-                  name={x.name}>{x.name}</Text>
-              ))
+              mainCategories.map((mainCategory, i) =>
+                this.state.filter[mainCategory].filter(x => x.check)
+                  .map((x, j) => (
+                    <Text
+                      key={i + ',' + j}
+                      name={x.name}>{x.name}</Text>
+                  ))
+              )
               : <Text>条件なし</Text>
           }
 
