@@ -158,7 +158,7 @@ class CategoriesSettingScreenContent extends React.Component {
                                         return item.editable ? (
                                             <ListItem>
                                                 <ListItem.Content>
-                                                    <ListItem.Title>{<CheckBox
+                                                    <ListItem.CheckBox
                                                         key={index}
                                                         title={item.name}
                                                         checked={item.edit}
@@ -167,8 +167,8 @@ class CategoriesSettingScreenContent extends React.Component {
                                                             this.props.globalState.setState({ categories: categories });
                                                             //TODO
                                                             //this.props.globalState.setState({ dishes: items });
-                                                        }} />}
-                                                    </ListItem.Title>
+                                                        }}
+                                                    />
                                                 </ListItem.Content>
                                             </ListItem>
                                         ) : (

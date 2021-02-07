@@ -101,7 +101,7 @@ class DishesSettingScreenContent extends React.Component {
                                 renderItem={({ item, index }) => (
                                     <ListItem>
                                         <ListItem.Content>
-                                            <ListItem.Title>{<CheckBox
+                                            <ListItem.CheckBox
                                                 key={index}
                                                 title={item.name}
                                                 checked={item.edit}
@@ -109,7 +109,7 @@ class DishesSettingScreenContent extends React.Component {
                                                     items[index].edit = !items[index].edit;
                                                     this.props.globalState.setState({ dishes: items });
                                                 }}
-                                            />}</ListItem.Title>
+                                            />
                                         </ListItem.Content>
                                     </ListItem>
                                 )}
