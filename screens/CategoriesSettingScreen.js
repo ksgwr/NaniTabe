@@ -156,23 +156,27 @@ class CategoriesSettingScreenContent extends React.Component {
                                         return <Text>{item.name}</Text>
                                     } else {
                                         return item.editable ? (
-                                            <ListItem
-                                                title={<CheckBox
-                                                    key={index}
-                                                    title={item.name}
-                                                    checked={item.edit}
-                                                    onPress={() => {
-                                                        items[index].edit = !items[index].edit;
-                                                        this.props.globalState.setState({ categories: categories });
-                                                        //TODO
-                                                        //this.props.globalState.setState({ dishes: items });
-                                                    }}
-                                                />}
-                                            />
+                                            <ListItem>
+                                                <ListItem.Content>
+                                                    <ListItem.Title>{<CheckBox
+                                                        key={index}
+                                                        title={item.name}
+                                                        checked={item.edit}
+                                                        onPress={() => {
+                                                            items[index].edit = !items[index].edit;
+                                                            this.props.globalState.setState({ categories: categories });
+                                                            //TODO
+                                                            //this.props.globalState.setState({ dishes: items });
+                                                        }} />}
+                                                    </ListItem.Title>
+                                                </ListItem.Content>
+                                            </ListItem>
                                         ) : (
-                                                <ListItem
-                                                    title={item.name}
-                                                />
+                                                <ListItem>
+                                                    <ListItem.Content>
+                                                        <ListItem.Title>{item.name}</ListItem.Title>
+                                                    </ListItem.Content>
+                                                </ListItem>
                                             )
                                     }
 
@@ -188,9 +192,12 @@ class CategoriesSettingScreenContent extends React.Component {
                                         return <Text>{item.name}</Text>
                                     } else {
                                         return (<ListItem
-                                            title={item.name}
                                             onPress={this.itemClick.bind(this, item)}
-                                        />)
+                                        >
+                                            <ListItem.Content>
+                                                <ListItem.Title>{item.name}</ListItem.Title>
+                                            </ListItem.Content>
+                                        </ListItem>)
                                     }
                                 }}
                             />

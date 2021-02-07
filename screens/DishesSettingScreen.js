@@ -99,17 +99,19 @@ class DishesSettingScreenContent extends React.Component {
                                 data={items}
                                 keyExtractor={(item, i) => i.toString()}
                                 renderItem={({ item, index }) => (
-                                    <ListItem
-                                        title={<CheckBox
-                                            key={index}
-                                            title={item.name}
-                                            checked={item.edit}
-                                            onPress={() => {
-                                                items[index].edit = !items[index].edit;
-                                                this.props.globalState.setState({ dishes: items });
-                                            }}
-                                        />}
-                                    />
+                                    <ListItem>
+                                        <ListItem.Content>
+                                            <ListItem.Title>{<CheckBox
+                                                key={index}
+                                                title={item.name}
+                                                checked={item.edit}
+                                                onPress={() => {
+                                                    items[index].edit = !items[index].edit;
+                                                    this.props.globalState.setState({ dishes: items });
+                                                }}
+                                            />}</ListItem.Title>
+                                        </ListItem.Content>
+                                    </ListItem>
                                 )}
                             />
                         ) : (
@@ -118,9 +120,14 @@ class DishesSettingScreenContent extends React.Component {
                                 keyExtractor={(item, i) => i.toString()}
                                 renderItem={({ item }) => (
                                     <ListItem
-                                        title={item.name}
                                         onPress={this.itemClick.bind(this, item.name)}
-                                    />
+                                    >
+                                        <ListItem.Content>
+                                            <ListItem.Title>
+                                                {item.name}
+                                            </ListItem.Title>
+                                        </ListItem.Content>
+                                    </ListItem>
                                 )}
                             />
                         )

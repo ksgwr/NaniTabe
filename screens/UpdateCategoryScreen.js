@@ -84,17 +84,19 @@ class UpdateCategoryScreenContent extends React.Component {
                     data={items}
                     keyExtractor={(item, i) => i.toString()}
                     renderItem={({ item, index }) => (
-                        <ListItem
-                            title={<CheckBox
-                                key={index}
-                                title={item.name}
-                                checked={item.edit}
-                                onPress={() => {
-                                    items[index].edit = !items[index].edit;
-                                    this.setState({ items: items });
-                                }}
-                            />}
-                        />
+                        <ListItem>
+                            <ListItem.Content>
+                                <ListItem.Title>{<CheckBox
+                                    key={index}
+                                    title={item.name}
+                                    checked={item.edit}
+                                    onPress={() => {
+                                        items[index].edit = !items[index].edit;
+                                        this.setState({ items: items });
+                                    }}
+                                />}</ListItem.Title>
+                            </ListItem.Content>
+                        </ListItem>
                     )}
                 />
                 <View style={styles.fixedDeleteView}>

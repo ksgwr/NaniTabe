@@ -68,11 +68,14 @@ class SettingScreenContent extends React.Component {
           baseSettings.map((item, i) => (
             <ListItem
               key={i}
-              title={item.name}
               onPress={this.itemClick.bind(this, item.view)}
               bottomDivider
               topDivider
-            />
+            >
+              <ListItem.Content>
+                <ListItem.Title>{item.name}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
           ))
         }
       </ScrollView>

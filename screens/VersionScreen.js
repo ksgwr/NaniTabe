@@ -10,7 +10,7 @@ import { List } from 'native-base';
 export default function SettingScreen() {
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <Text>バージョン</Text>
+            <Text>バージョン: 1.0.0</Text>
         </ScrollView>
     );
 }
