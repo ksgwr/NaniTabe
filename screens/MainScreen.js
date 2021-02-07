@@ -137,19 +137,20 @@ class MainScreenContent extends React.Component {
             onPress={this.filterClick}
           />
         </View>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.container}>
-            <FlatList
-              data={items}
-              keyExtractor={(item, i) => i.toString()}
-              renderItem={({ item, index }) => (
-                <ListItem
-                  key={index}
-                  title={item.name}
-                />
-              )}
-            />
-          </View></ScrollView>
+        <FlatList
+          style={styles.container}
+          data={items}
+          keyExtractor={(item, i) => i.toString()}
+          renderItem={({ item, index }) => (
+            <ListItem
+              key={index}
+            >
+              <ListItem.Content>
+                <ListItem.Title>{item.name}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
         <View style={styles.fixedShuffleView}>
           <Button
             icon={
